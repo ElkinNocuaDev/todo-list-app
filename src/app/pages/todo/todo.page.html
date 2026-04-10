@@ -1,13 +1,21 @@
-<ion-header>
+<ion-header translucent="true">
   <ion-toolbar>
-    <ion-title>To-Do List App</ion-title>
+    <ion-title class="title-main">To-Do</ion-title>
   </ion-toolbar>
 
-  <!-- 🔥 FILTRO POR CATEGORÍAS (NO ROMPE NADA) -->
   <ion-toolbar>
-    <ion-segment (ionChange)="onCategoryChange($event.detail.value)">
+    <div class="subtitle">
+      Organiza tus tareas por categorías
+    </div>
+  </ion-toolbar>
 
-      <ion-segment-button [value]="null">
+  <!-- 🔥 Categorías -->
+  <ion-toolbar>
+    <ion-segment
+      scrollable="true"
+      (ionChange)="onCategoryChange($event.detail.value)">
+
+      <ion-segment-button value="">
         <ion-label>Todas</ion-label>
       </ion-segment-button>
 
@@ -21,30 +29,33 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content fullscreen class="ion-padding">
 
-  <!-- 🔹 INPUT MEJORADO -->
-  <ion-item>
-    <ion-input #input placeholder="Nueva tarea"></ion-input>
+  <!-- 🔥 INPUT PRO -->
+  <div class="input-card">
+    <ion-input #input placeholder="¿Qué necesitas hacer?"></ion-input>
 
-    <ion-button slot="end"
-                (click)="addTask(input.value); input.value=''">
-      +
+    <ion-button
+      fill="solid"
+      shape="round"
+      (click)="addTask(input.value); input.value=''">
+      Agregar tarea
     </ion-button>
-  </ion-item>
-
-  <!-- 🔥 EMPTY STATE -->
-  <div *ngIf="(filteredTasks$ | async)?.length === 0" class="empty">
-    <p>No hay tareas</p>
   </div>
 
-  <!-- 🔥 LISTA CON SWIPE -->
-  <ion-list>
+  <!-- 🔥 EMPTY STATE PRO -->
+  <div *ngIf="(filteredTasks$ | async)?.length === 0" class="empty-state">
+    <h3>Todo listo 🚀</h3>
+    <p>No tienes tareas pendientes</p>
+  </div>
+
+  <!-- 🔥 LISTA PRO -->
+  <ion-list class="task-list">
 
     <ion-item-sliding
       *ngFor="let task of (filteredTasks$ | async); trackBy: trackById">
 
-      <ion-item>
+      <ion-item class="task-item">
 
         <ion-checkbox
           slot="start"
@@ -52,57 +63,62 @@
           (ionChange)="toggle(task.id)">
         </ion-checkbox>
 
-        <ion-label
-          [style.text-decoration]="task.completed ? 'line-through' : 'none'">
-          {{ task.title }}
+        <ion-label>
+          <h2 [class.completed]="task.completed">
+            {{ task.title }}
+          </h2>
         </ion-label>
 
-      </ion-item>
+        <ion-button
+            fill="clear"
+            slot="end"
+            (click)="delete(task.id)"
+            style="color: #eb445a;">
 
-      <!-- 🔥 SWIPE DELETE -->
-      <ion-item-options side="end">
-        <ion-item-option color="danger" (click)="delete(task.id)">
-          Eliminar
-        </ion-item-option>
-      </ion-item-options>
+            <ion-icon name="trash-outline"></ion-icon>
+            Borrar
+        </ion-button>
+
+      </ion-item>
 
     </ion-item-sliding>
 
   </ion-list>
 
-  <!-- 🔥 FAB (botón flotante) -->
+  <!-- 🔥 FAB -->
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)="openCategoryModal()">
       +
     </ion-fab-button>
   </ion-fab>
 
+  <!-- 🔥 MODAL -->
   <ion-modal [isOpen]="isCategoryModalOpen">
-  <ng-template>
+    <ng-template>
 
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Nueva Categoría</ion-title>
-        <ion-buttons slot="end">
-          <ion-button (click)="closeCategoryModal()">Cerrar</ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Nueva Categoría</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeCategoryModal()">Cerrar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
 
-    <ion-content class="ion-padding">
+      <ion-content class="ion-padding">
 
-      <ion-input
-        placeholder="Nombre de la categoría"
-        [(ngModel)]="newCategoryName">
-      </ion-input>
+        <ion-input
+          placeholder="Nombre de la categoría"
+          [(ngModel)]="newCategoryName">
+        </ion-input>
 
-      <ion-button expand="block" (click)="saveCategory()">
-        Guardar
-      </ion-button>
+        <ion-button expand="block" (click)="saveCategory()">
+          Guardar
+        </ion-button>
 
-    </ion-content>
+      </ion-content>
 
-  </ng-template>
-</ion-modal>
+    </ng-template>
+  </ion-modal>
 
 </ion-content>
