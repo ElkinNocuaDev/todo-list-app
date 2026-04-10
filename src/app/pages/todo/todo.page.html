@@ -1,0 +1,108 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>To-Do List App</ion-title>
+  </ion-toolbar>
+
+  <!-- 🔥 FILTRO POR CATEGORÍAS (NO ROMPE NADA) -->
+  <ion-toolbar>
+    <ion-segment (ionChange)="onCategoryChange($event.detail.value)">
+
+      <ion-segment-button [value]="null">
+        <ion-label>Todas</ion-label>
+      </ion-segment-button>
+
+      <ion-segment-button
+        *ngFor="let cat of (categories$ | async)"
+        [value]="cat.id">
+        <ion-label>{{ cat.name }}</ion-label>
+      </ion-segment-button>
+
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- 🔹 INPUT MEJORADO -->
+  <ion-item>
+    <ion-input #input placeholder="Nueva tarea"></ion-input>
+
+    <ion-button slot="end"
+                (click)="addTask(input.value); input.value=''">
+      +
+    </ion-button>
+  </ion-item>
+
+  <!-- 🔥 EMPTY STATE -->
+  <div *ngIf="(filteredTasks$ | async)?.length === 0" class="empty">
+    <p>No hay tareas</p>
+  </div>
+
+  <!-- 🔥 LISTA CON SWIPE -->
+  <ion-list>
+
+    <ion-item-sliding
+      *ngFor="let task of (filteredTasks$ | async); trackBy: trackById">
+
+      <ion-item>
+
+        <ion-checkbox
+          slot="start"
+          [checked]="task.completed"
+          (ionChange)="toggle(task.id)">
+        </ion-checkbox>
+
+        <ion-label
+          [style.text-decoration]="task.completed ? 'line-through' : 'none'">
+          {{ task.title }}
+        </ion-label>
+
+      </ion-item>
+
+      <!-- 🔥 SWIPE DELETE -->
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="delete(task.id)">
+          Eliminar
+        </ion-item-option>
+      </ion-item-options>
+
+    </ion-item-sliding>
+
+  </ion-list>
+
+  <!-- 🔥 FAB (botón flotante) -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="openCategoryModal()">
+      +
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-modal [isOpen]="isCategoryModalOpen">
+  <ng-template>
+
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Nueva Categoría</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="closeCategoryModal()">Cerrar</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content class="ion-padding">
+
+      <ion-input
+        placeholder="Nombre de la categoría"
+        [(ngModel)]="newCategoryName">
+      </ion-input>
+
+      <ion-button expand="block" (click)="saveCategory()">
+        Guardar
+      </ion-button>
+
+    </ion-content>
+
+  </ng-template>
+</ion-modal>
+
+</ion-content>
