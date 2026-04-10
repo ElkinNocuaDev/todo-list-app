@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { IonIcon } from '@ionic/angular/standalone';
 
 import {
   IonHeader,
@@ -58,9 +59,11 @@ import { map } from 'rxjs/operators';
     IonSegment,
     IonSegmentButton,
     IonModal,
-    IonButtons
+    IonButtons,
+    IonIcon
   ],
-  templateUrl: './todo.page.html'
+  templateUrl: './todo.page.html',
+  styleUrls: ['./todo.page.scss']
 })
 export class TodoPage {
 

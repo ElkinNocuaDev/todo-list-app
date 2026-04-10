@@ -1,0 +1,41 @@
+.title-main {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.subtitle {
+  font-size: 14px;
+  opacity: 0.7;
+  padding: 0 16px;
+}
+
+.input-card {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  background: var(--ion-color-light);
+  padding: 12px;
+  border-radius: 16px;
+  margin-bottom: 20px;
+}
+
+.task-list {
+  margin-top: 10px;
+}
+
+.task-item {
+  --background: var(--ion-color-light);
+  border-radius: 14px;
+  margin-bottom: 10px;
+}
+
+.completed {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
+.empty-state {
+  text-align: center;
+  margin-top: 80px;
+  opacity: 0.6;
+}
