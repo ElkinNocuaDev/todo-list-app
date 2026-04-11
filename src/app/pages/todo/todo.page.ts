@@ -1,7 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonIcon } from '@ionic/angular/standalone';
+import { FeatureFlagService } from '../../core/feature-flags/feature-flag.service';
 
 import {
   IonHeader,
@@ -63,18 +64,25 @@ import { map } from 'rxjs/operators';
     IonIcon
   ],
   templateUrl: './todo.page.html',
-  styleUrls: ['./todo.page.scss']
+  styleUrls: ['./todo.page.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TodoPage {
 
   private taskService = inject(TaskService);
   private categoryService = inject(CategoryService);
+  private featureFlag = inject(FeatureFlagService);
 
-  // 🔹 EXISTENTE
   tasks$ = this.taskService.tasksObservable;
 
-  // 🔹 EXISTENTE
   categories$ = this.categoryService.categoriesObservable;
+
+  // 🔹 firebase feature flags
+  showCategories = true;
+
+  async ngOnInit() {
+    this.showCategories = await this.featureFlag.isCategoriesEnabled();
+  }
 
   // 🔥 NUEVO: estado reactivo de categoría
   private selectedCategorySubject = new BehaviorSubject<string>('');

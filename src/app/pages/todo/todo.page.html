@@ -10,7 +10,7 @@
   </ion-toolbar>
 
   <!-- 🔥 Categorías -->
-  <ion-toolbar>
+  <ion-toolbar *ngIf="showCategories">
     <ion-segment
       scrollable="true"
       (ionChange)="onCategoryChange($event.detail.value)">
