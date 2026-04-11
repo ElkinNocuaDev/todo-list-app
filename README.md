@@ -18,6 +18,37 @@ La aplicación implementa un flujo completo de desarrollo móvil, incluyendo con
 
 ---
 
+## 🔥 Feature Flags (Firebase Remote Config)
+
+El proyecto implementa **Feature Flags** utilizando Firebase Remote Config para habilitar o deshabilitar funcionalidades sin necesidad de desplegar una nueva versión de la aplicación.
+
+---
+
+### 🎛️ Feature implementada
+
+Se utiliza la variable: enable_categories
+
+---
+
+### 🧠 Lógica de negocio
+
+La aplicación consulta Firebase Remote Config al iniciar y adapta la UI dinámicamente:
+
+- Si `enable_categories = true` → se renderiza el módulo de categorías
+- Si `enable_categories = false` → el módulo no se muestra en la interfaz
+
+---
+
+### 🚀 Beneficio técnico
+
+- Permite activar/desactivar features sin redeploy
+- Reduce riesgo en producción
+- Facilita pruebas A/B o despliegues progresivos
+- Mejora control de releases
+
+---
+
+
 ## 🏗️ Arquitectura del proyecto
 
 - Frontend: Angular
