@@ -1,0 +1,11 @@
+{
+  "android": {
+    "release": {
+      "keystore": "todoapp-release.keystore",
+      "storePassword": "123456",
+      "alias": "todoapp",
+      "password": "123456",
+      "keystoreType": ""
+    }
+  }
+}
